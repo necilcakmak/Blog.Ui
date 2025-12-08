@@ -53,7 +53,7 @@ export default function ArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Makaleler test</h1>
+      <h1 className="text-2xl font-bold mb-4">Makaleler tet</h1>
 
       <DataTable
         data={articleList}
