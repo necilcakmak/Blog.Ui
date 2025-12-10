@@ -1,4 +1,4 @@
-export type InputType = "text" | "email" | "password" | "number";
+export type InputType = "text" | "email" | "password" | "number" | "date" | "file";
 
 export interface InputProps {
   label: string;
@@ -10,4 +10,5 @@ export interface InputProps {
   pattern?: RegExp;
   errorMessage?: string;
   className?: string;
+  disabled?: boolean;
 }

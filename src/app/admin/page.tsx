@@ -23,7 +23,6 @@ export default function AdminHome() {
   const fetchArticles = async () => {
     setLoading(true);
     const result = await getArticles(); // API çağrısı
-    debugger;
     if (result.success) {
       const articles = (result as DataResult<ArticleDto[]>).data;
       setArticleList(articles || []);
@@ -35,7 +34,6 @@ export default function AdminHome() {
   const fetchCategories = async () => {
     setLoading(true);
     const result = await getCategories(); // API çağrısı
-    debugger;
     if (result.success) {
       const categories = (result as DataResult<CategoryDto[]>).data;
       setCategories(categories || []);
@@ -47,7 +45,6 @@ export default function AdminHome() {
   const fetchUsers = async () => {
     setLoading(true);
     const result = await getUsers(); // API çağrısı
-    debugger;
     if (result.success) {
       const users = (result as DataResult<UserDto[]>).data;
       setUsers(users || []);

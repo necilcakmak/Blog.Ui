@@ -9,6 +9,7 @@ export interface ArticleDto {
   title?: string | null;
   content?: string | null;
   thumbnail?: string | null;
+  imageUrl: string;
   slug?: string | null;
   keywords?: string | null;
   viewsCount: number;
@@ -22,7 +23,7 @@ export interface ArticleDto {
 export interface ArticleAddDto {
   title: string;
   content: string;
-  thumbnail: string;
+  thumbnailBase64: string;
   publishedDate: Date;
   categoryId: string; // Guid → string
   slug: string;
@@ -30,10 +31,10 @@ export interface ArticleAddDto {
 }
 
 export interface ArticleUpdateDto {
-  id: string;           // Guid → string
+  id: string; // Guid → string
   title?: string | null;
   content?: string | null;
-  categoryId: string;   // Guid → string
+  categoryId: string; // Guid → string
   thumbnail?: string | null;
   slug: string;
   keywords: string;

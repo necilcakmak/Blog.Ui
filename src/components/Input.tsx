@@ -11,6 +11,7 @@ export default function Input({
   pattern,
   errorMessage = "",
   className = "",
+  disabled = false,
 }: InputProps) {
   const [touched, setTouched] = useState(false);
   const [localError, setLocalError] = useState("");
@@ -48,6 +49,7 @@ export default function Input({
         type={type}
         value={value}
         placeholder={placeholder}
+        disabled={disabled}
         onChange={(e) => handleChange(e.target.value)}
         onBlur={handleBlur}
         className={`px-4 py-2 border rounded text-black placeholder-gray-400

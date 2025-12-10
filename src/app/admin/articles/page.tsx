@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useModal } from "@/context/ModalContext"; // global modal hook
+import Link from "next/link";
 
 export default function ArticlesPage() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function ArticlesPage() {
 
   const handleDelete = (article: ArticleDto) => {
     openModal({
-      title: "Kategori Sil",
+      title: "Makale Sil",
       message: `"${article.title}" adlı makaleyi silmek istiyor musunuz?`,
       confirmText: "Sil",
       cancelText: "Vazgeç",
@@ -53,10 +54,17 @@ export default function ArticlesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Makaleler tet</h1>
-
       <DataTable
         data={articleList}
+        title="Makaleler"
+        actions={
+          <Link
+            href="/admin/articles/new"
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-400 transition"
+          >
+            Yeni Ekle
+          </Link>
+        }
         searchKeys={["title", "keywords", "slug"]}
         columns={[
           { key: "id", label: "ID", sortable: true },
@@ -69,7 +77,7 @@ export default function ArticlesPage() {
         pageSize={5}
         loading={loading}
         onEdit={(article: ArticleDto) =>
-          router.push(`/admin/articles/edit/${article.id}`)
+          router.push(`/admin/articles/${article.id}/edit`)
         }
         onView={(article: ArticleDto) =>
           router.push(`/admin/articles/${article.id}`)

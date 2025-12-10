@@ -8,33 +8,22 @@ export async function fetchWrapper<T = any>(
   options: RequestInit = {}
 ): Promise<DataResult<T> | Result> {
   try {
-    const token = localStorage.getItem("accessToken");
-
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
       ...(options.headers as Record<string, string>),
     };
 
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-
     const res = await fetch(`${API_URL}/${endpoint}`, {
       ...options,
       headers,
+      credentials: "include", // ✅ Cookie gönderilsin
     });
 
     const data: DataResult<T> | Result = await res.json().catch(() => ({}));
 
-    // ✅ Global UnAuthorizedRequest kontrolü
     if (!data.success && data.message === "UnAuthorizedRequest") {
-      // Mevcut sayfayı kaydet (login sonrası yönlendirme için)
       localStorage.setItem("redirectAfterLogin", window.location.pathname);
-
-      // Login sayfasına yönlendir
-      window.location.href = "/login";
-
-      // Boş bir result dön (fetch tamamlanıyor)
+      window.location.href = "/site/login";
       return { success: false, message: "Redirecting to login..." };
     }
 
@@ -47,9 +36,20 @@ export async function fetchWrapper<T = any>(
 
 // API helper fonksiyonlar
 export const getData = <T>(endpoint: string) => fetchWrapper<T>(endpoint);
+
 export const postData = <T>(endpoint: string, payload: any) =>
-  fetchWrapper<T>(endpoint, { method: "POST", body: JSON.stringify(payload) });
+  fetchWrapper<T>(endpoint, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
 export const putData = <T>(endpoint: string, payload: any) =>
-  fetchWrapper<T>(endpoint, { method: "PUT", body: JSON.stringify(payload) });
+  fetchWrapper<T>(endpoint, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+
 export const deleteData = <T>(endpoint: string) =>
-  fetchWrapper<T>(endpoint, { method: "DELETE" });
+  fetchWrapper<T>(endpoint, {
+    method: "DELETE",
+  });

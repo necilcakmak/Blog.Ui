@@ -35,18 +35,8 @@ export default function LoginPage() {
     if (loginResponse.success) {
       const tokenData = (loginResponse as DataResult<AccessToken>).data;
       if (tokenData.token) {
-        localStorage.setItem("accessToken", tokenData.token);
-
-        if (tokenData.user) {
-          localStorage.setItem("user", JSON.stringify(tokenData.user));
-        }
-        const redirectPath =
-          localStorage.getItem("redirectAfterLogin") || "/admin";
-        localStorage.removeItem("redirectAfterLogin");
-
-        router.push(redirectPath);
-
         toast.success(loginResponse.message);
+        router.push("/admin");
       }
     } else {
       if (loginResponse.validationErrors) {
@@ -58,8 +48,8 @@ export default function LoginPage() {
         );
         setErrors(newErrors);
       }
+      toast.error(loginResponse.message);
     }
-    toast.error(loginResponse.message || "Silme işlemi başarısız oldu.");
 
     setLoading(false);
   };
@@ -95,6 +85,15 @@ export default function LoginPage() {
         {message && (
           <p className="text-center text-red-500 mt-2 font-medium">{message}</p>
         )}
+        <div className="text-center mt-2">
+          <button
+            type="button"
+            className="text-blue-500 hover:underline"
+            onClick={() => router.push("/site/register")}
+          >
+            Already have an account? Register
+          </button>
+        </div>
       </form>
     </div>
   );

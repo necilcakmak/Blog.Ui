@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useModal } from "@/context/ModalContext"; // global modal hook
+import Link from "next/link";
 
 export default function CategoriesPage() {
   const router = useRouter();
@@ -51,9 +52,17 @@ export default function CategoriesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Kategoriler</h1>
       <DataTable
         data={categories}
+        title="Kategoriler"
+        actions={
+          <Link
+            href="/admin/categories/new"
+            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-400 transition"
+          >
+            Yeni Ekle
+          </Link>
+        }
         searchKeys={["name", "tagName"]}
         columns={[
           { key: "id", label: "ID" },
@@ -64,9 +73,6 @@ export default function CategoriesPage() {
         pageSize={5}
         loading={loading}
         onEdit={(category: CategoryDto) =>
-          router.push(`/admin/categories/edit/${category.id}`)
-        }
-        onView={(category: CategoryDto) =>
           router.push(`/admin/categories/${category.id}`)
         }
         onDelete={handleDelete}
