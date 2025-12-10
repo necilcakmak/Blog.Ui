@@ -3,6 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Alpine build tools ekle (native modüller için gerekli)
+RUN apk add --no-cache python3 make g++ bash
+
 # package.json ve package-lock.json/ pnpm-lock.yaml'ı kopyala
 COPY package*.json ./
 
@@ -22,9 +25,8 @@ WORKDIR /app
 
 # Sadece production bağımlılıkları yükle
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --production && npm install typescript
 
-# Build edilen Next.js output'u kopyala
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.ts ./

@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   blog_ui:
+    image: necilcakmak/blog:ui
     build:
       context: .  
       dockerfile: Dockerfile
